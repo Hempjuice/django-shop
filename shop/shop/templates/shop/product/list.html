@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<table class="table table-light table-hover">
+    {% for product in products %}
+    <tr>
+        <td align="center">
+            <a href="{{ product.get_absolute_url }}">
+                <img src="{% if product.image %} {{ product.image.url }} {% else %} {% static 'img/default.gif' %} {% endif %}" class="align-self-center mr-3" style="max-width: 150px; max-height: 150px;">
+            </a>
+        </td>
+        <td>
+            <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
+                <h5>{{ product.name }}</h5>
+            </a>
+            <p><small class="text-muted">В наличии {{ product.stock }} шт.</small></p>
+        </td>
+        <td>
+            <h5>{{ product.get_price }}</h5>
+            <a href="{% url "cart:cart_add" product.id %}" class="btn btn-primary">В корзину</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

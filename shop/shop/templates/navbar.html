@@ -1,0 +1,38 @@
+{% load static %}
+
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-primary mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="{% static 'img/logo.svg' %}" width="30" height="30"
+                 class="d-inline-block align-middle" alt="">
+            Django-shop
+        </a>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Каталог
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/">Все товары</a>
+                        <div class="dropdown-divider"></div>
+                        {% for category in categories %}
+                            <a href="{{ category.get_absolute_url }}" class="dropdown-item">{{ category.name }}</a>
+                        {% endfor %}
+                    </div>
+                </li>
+                <form method='GET' action='{% url "search:query" %}' class="form-inline pl-4 my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Поиск по сайту" name='q' aria-label="Search" style="width: 30rem" value='{{ request.GET.q }}'>
+                    <button class="btn btn-sm btn-warning my-2 my-sm-0" style="height: 38px" type="submit"><span class="material-icons align-middle">search</span></button>
+                </form>
+            </ul>
+            <span class="navbar-text">
+                <a class="nav-link" href="{% url 'cart:cart_detail' %}"><span class="material-icons align-top">shopping_cart</span>
+                    {% if cart|length > 0 %}
+                        <span class="badge badge-pill badge-warning">{{ cart|length }}</span>
+                    {% endif %}
+                </a>
+            </span>
+        </div>
+    </div>
+</nav>
