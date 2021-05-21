@@ -18,7 +18,8 @@ a:hover {
 }
 
 .breadcrumb-item+.breadcrumb-item::before {
-    content: ">";
+    font-family: 'Material Icons';
+    content: "chevron_right";
 }
 
 footer {

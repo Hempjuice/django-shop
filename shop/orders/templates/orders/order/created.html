@@ -3,5 +3,5 @@
 {% block content %}
 <h3 class="page-header">Спасибо за покупку!</h3>
 <p>Ваш заказ оформлен. Номер заказа: <strong>{{ order.id }}</strong>.</p>
-<a href="{% url "shop:main_page" %}" class="btn btn-primary">Вернуться в магазин</a>
+<a href="{% url 'shop:main_page' %}" class="btn btn-primary">Вернуться в магазин</a>
 {% endblock %}

@@ -30,15 +30,15 @@
             </td>
             <td style="vertical-align: middle;">
                 <div class="row">
-                    <a class="btn btn-primary" style="height: 38px;width: 38px;padding: 6px 0;border-radius: .25rem 0 0 .25rem;" href="{% if item.quantity > 1 %} {% url "cart:cart_dec" product.id %} {% else %} # {% endif %}"><span class="material-icons">remove</span></a>
+                    <a class="btn btn-primary" style="height: 38px;width: 38px;padding: 6px 0;border-radius: .25rem 0 0 .25rem;" href="{% if item.quantity > 1 %} {% url 'cart:cart_dec' product.id %} {% else %} # {% endif %}"><span class="material-icons">remove</span></a>
                     <span style="width: 40px;text-align: center;border: 1px solid;padding: 5px 0;border-color: #007bff;">{{ item.quantity }}</span>
-                    <a class="btn btn-primary" style="height: 38px;width: 38px;padding: 6px 0;border-radius: 0 .25rem .25rem 0;" href="{% if item.quantity < product.stock %} {% url "cart:cart_inc" product.id %} {% else %} # {% endif %}"><span class="material-icons">add</span></a>
+                    <a class="btn btn-primary" style="height: 38px;width: 38px;padding: 6px 0;border-radius: 0 .25rem .25rem 0;" href="{% if item.quantity < product.stock %} {% url 'cart:cart_inc' product.id %} {% else %} # {% endif %}"><span class="material-icons">add</span></a>
                 </div>
             </td>
             <td style="vertical-align: middle;">{{ item.price }}</td>
             <td style="vertical-align: middle;">{{ item.total_price }}</td>
             <td style="vertical-align: middle;">
-                <a href="{% url "cart:cart_remove" product.id %}" class="btn btn-danger">Удалить</a>
+                <a href="{% url 'cart:cart_remove' product.id %}" class="btn btn-danger">Удалить</a>
             </td>
         </tr>
         {% endwith %}
@@ -51,9 +51,9 @@
 {% endif %}
 
 <p class="text-right">
-    <a href="{% url "shop:main_page" %}" class="btn btn-primary">Продолжить покупки</a>
+    <a href="{% url 'shop:main_page' %}" class="btn btn-primary">Продолжить покупки</a>
     {% if cart|length > 0 %}
-        <a href="{% url "orders:order_create" %}" class="btn btn-success">Оформить заказ</a>
+        <a href="{% url 'orders:order_create' %}" class="btn btn-success">Оформить заказ</a>
     {% endif %}
 </p>
 {% endblock %}
