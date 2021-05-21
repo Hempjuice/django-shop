@@ -1,25 +1,31 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render
+from django.views.generic import DetailView, ListView, TemplateView
+
 from .models import Category, Product
 
 
-def product_list(request, category_slug=None):
-    category = None
-    if category_slug:
+class MainPage(TemplateView):
+    template_name = 'shop/main.html'
+
+
+class ProductList(ListView):
+    def get(self, request, *args, **kwargs):
+        category_slug = self.kwargs.get('category_slug')
         category = get_object_or_404(Category, slug=category_slug)
-        products = Product.objects.filter(category=category, available=True)
-    else:
-        products = Product.objects.filter(available=True)
-
-    context = {
-        'category': category,
-        'products': products
-    }
-    return render(request, 'shop/product/list.html', context)
+        products = Product.objects.filter(category=category, stock__gt=0)
+        context = {
+            'category': category,
+            'products': products
+        }
+        return render(request, 'shop/product/list.html', context)
 
 
-def product_detail(request, slug):
-    product = get_object_or_404(Product, slug=slug, available=True)
-    context = {
-        'product': product
-    }
-    return render(request, 'shop/product/detail.html', context)
+class ProductDetail(DetailView):
+    def get(self, request, *args, **kwargs):
+        slug = self.kwargs.get('slug')
+        product = get_object_or_404(Product, slug=slug, stock__gt=0)
+        context = {
+            'path': product.category.get_ancestors(include_self=True),
+            'product': product
+        }
+        return render(request, 'shop/product/detail.html', context)

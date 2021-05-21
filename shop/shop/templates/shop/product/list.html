@@ -1,26 +1,54 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load mptt_tags %}
 
 {% block content %}
-<table class="table table-light table-hover">
-    {% for product in products %}
-    <tr>
-        <td align="center">
-            <a href="{{ product.get_absolute_url }}">
-                <img src="{% if product.image %} {{ product.image.url }} {% else %} {% static 'img/default.gif' %} {% endif %}" class="align-self-center mr-3" style="max-width: 150px; max-height: 150px;">
+{% if category %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Главная</a></li>
+            {% for category in category.get_ancestors %}
+                <li class="breadcrumb-item"><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
+            {% endfor %}
+            <li class="breadcrumb-item active" aria-current="page">{{ category.name }}</li>
+        </ol>
+    </nav>
+{% endif %}
+<div class="row row-cols-1 row-cols-md-4">
+    {% for category in category.get_children %}
+        <div class="col mb-4">
+            <a href="{{ category.get_absolute_url }}">
+                <div class="card h-100 shadow">
+                    <img src="{% if category.image %} {{ category.image.url }} {% endif %}" class="card-img-top mx-auto" alt="...">
+                    <div class="card-body mx-auto">
+                        <h5 class="card-title">{{ category.name }}</h5>
+                    </div>
+                </div>
             </a>
-        </td>
-        <td>
-            <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
-                <h5>{{ product.name }}</h5>
-            </a>
-            <p><small class="text-muted">В наличии {{ product.stock }} шт.</small></p>
-        </td>
-        <td>
-            <h5>{{ product.get_price }}</h5>
-            <a href="{% url "cart:cart_add" product.id %}" class="btn btn-primary">В корзину</a>
-        </td>
-    </tr>
+        </div>
     {% endfor %}
-</table>
+</div>
+{% if products %}
+    <table class="table table-light table-hover">
+        {% for product in products %}
+            <tr>
+                <td align="center">
+                    <a href="{{ product.get_absolute_url }}">
+                        <img src="{% if product.image %} {{ product.image.url }} {% else %} {% static 'img/default.gif' %} {% endif %}" class="align-self-center mr-3" style="max-width: 150px; max-height: 150px;">
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ product.get_absolute_url }}">
+                        <h5>{{ product.name }}</h5>
+                    </a>
+                    <p><small class="text-muted">В наличии {{ product.stock }} шт.</small></p>
+                </td>
+                <td>
+                    <h5>{{ product.get_price }}</h5>
+                    <a href="{% url "cart:cart_add" product.id %}" class="btn btn-primary">В корзину</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
 {% endblock %}

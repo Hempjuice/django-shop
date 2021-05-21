@@ -1,9 +1,11 @@
 from decimal import Decimal
+
 from django.conf import settings
+
 from shop.models import Product
 
 
-class Cart(object):
+class Cart:
     def __init__(self, request):
         self.session = request.session
         cart = self.session.get(settings.CART_SESSION_ID)
@@ -13,7 +15,7 @@ class Cart(object):
 
     def add(self, product):
         product_id = str(product.id)
-        if product_id not in self.cart and product.available:
+        if product_id not in self.cart and product.stock:
             self.cart[product_id] = {'quantity': 1, 'price': str(product.price)}
         elif product.stock > self.cart[product_id]['quantity']:
             self.cart[product_id]['quantity'] += 1

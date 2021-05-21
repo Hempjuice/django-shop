@@ -51,7 +51,7 @@
 {% endif %}
 
 <p class="text-right">
-    <a href="{% url "shop:product_list" %}" class="btn btn-primary">Продолжить покупки</a>
+    <a href="{% url "shop:main_page" %}" class="btn btn-primary">Продолжить покупки</a>
     {% if cart|length > 0 %}
         <a href="{% url "orders:order_create" %}" class="btn btn-success">Оформить заказ</a>
     {% endif %}

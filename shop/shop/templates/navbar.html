@@ -1,4 +1,5 @@
 {% load static %}
+{% load mptt_tags %}
 
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-primary mb-4">
     <div class="container">
@@ -14,11 +15,14 @@
                         Каталог
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/">Все товары</a>
-                        <div class="dropdown-divider"></div>
-                        {% for category in categories %}
-                            <a href="{{ category.get_absolute_url }}" class="dropdown-item">{{ category.name }}</a>
-                        {% endfor %}
+                        {% recursetree categories %}
+                        <a href="{{ node.get_absolute_url }}" class="dropdown-item">{{ node.name }}</a>
+                        {% if not node.is_leaf_node %}
+                            <ul>
+                                {{ children }}
+                            </ul>
+                        {% endif %}
+                        {% endrecursetree %}
                     </div>
                 </li>
                 <form method='GET' action='{% url "search:query" %}' class="form-inline pl-4 my-2 my-lg-0">
