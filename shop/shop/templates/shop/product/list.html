@@ -45,7 +45,7 @@
                 </td>
                 <td>
                     <h5>{{ product.get_price }}</h5>
-                    <a href="{% url "cart:cart_add" product.id %}" class="btn btn-primary">В корзину</a>
+                    <a href="{% url "cart:cart_add" product.id %}" class="btn btn-primary"><span class="material-icons align-top">add_shopping_cart</span> В корзину</a>
                 </td>
             </tr>
         {% endfor %}
