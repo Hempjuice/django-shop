@@ -26,7 +26,7 @@ class Category(MPTTModel):
         order_insertion_by = ['name']
 
     class Meta:
-        db_table = 'category'
+        db_table = 'categories'
         verbose_name = 'категорию'
         verbose_name_plural = 'категории'
     
@@ -51,10 +51,10 @@ class Product(models.Model):
     image = models.ImageField(upload_to=get_upload_path, blank=True, verbose_name='Изображение')
 
     class Meta:
-        db_table = 'product'
+        db_table = 'products'
         ordering = ('name',)
-        verbose_name = 'продукт'
-        verbose_name_plural = 'продукты'
+        verbose_name = 'товар'
+        verbose_name_plural = 'товары'
     
     def __str__(self):
         return self.name

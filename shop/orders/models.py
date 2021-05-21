@@ -12,7 +12,7 @@ class Order (models.Model):
     address = models.CharField(max_length=150, verbose_name='Адрес')
 
     class Meta:
-        db_table = 'order'
+        db_table = 'orders'
         verbose_name = 'заказ'
         verbose_name_plural = 'заказы'
 
@@ -30,6 +30,7 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField(default=1, verbose_name='Количество')
 
     class Meta:
+        db_table = 'order_items'
         verbose_name = 'товар'
         verbose_name_plural = 'товары'
 

@@ -11,9 +11,11 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import os
+import sentry_sdk
 from pathlib import Path
 
 from django.contrib.messages import constants as messages
+from sentry_sdk.integrations.django import DjangoIntegration
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -156,3 +158,13 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 CART_SESSION_ID = 'cart'
+
+sentry_sdk.init(
+    os.getenv('SENTRY_URL'),
+    integrations=[DjangoIntegration()],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0
+)
