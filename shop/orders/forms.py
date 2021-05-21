@@ -37,7 +37,7 @@ class OrderCreateForm(forms.ModelForm):
             mail_body = 'Создан заказ №' + str(order.id) + '\n'
             for item in cart:
                 product = get_object_or_404(Product, id=item['product'].id)
-                if item['quantity'] < product.stock:
+                if item['quantity'] > product.stock:
                     item['quantity'] = product.stock
                 product.stock -= item['quantity']
                 product.save()
@@ -53,7 +53,7 @@ class OrderCreateForm(forms.ModelForm):
             load_dotenv()
             send_mail('Создан новый заказ',
                       mail_body,
-                      [os.getenv('SHOP_EMAIL')],
-                      order.email,
+                      os.getenv('SHOP_EMAIL'),
+                      [order.email],
                       fail_silently=False)
         return order
